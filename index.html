@@ -1,56 +1,59 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calculator</title>
-</head>
-<style>
-    *{
+    <style>
+      * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
         font-family: Arial, Helvetica, sans-serif;
-    }
+      }
 
-    body{
+      body {
         background: linear-gradient(135deg, #ff6a9d, #a86edb);
-        height: 100vh;
+        min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
-    }
-    
-    .calculator{
+        padding: 15px;
+      }
+
+      .calculator {
         background: #ffe4ef;
-        width: 320px;
+        width: 100%;
+        max-width: 320px;
         padding: 22px;
         border-radius: 24px;
         border: 1px solid white;
         box-shadow: 0 20px 40px rgb(0, 0, 0, 0.2);
-    }
+      }
 
-    .display{
+      .display {
         background: white;
-        height: 75px;
+        min-height: 75px;
         border-radius: 14px;
         display: flex;
         justify-content: flex-end;
         align-items: center;
-        padding-right: 15px;
+        padding: 10px 15px;
         font-size: 34px;
         font-weight: bold;
         color: #ff3d7a;
         margin-bottom: 18px;
-    }
+        overflow-x: auto;
+        word-break: break-all;
+      }
 
-    .buttons{
+      .buttons {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 12px;
-    }
+      }
 
-    button{
+      button {
         height: 58px;
         border-radius: 14px;
         border: none;
@@ -60,78 +63,157 @@
         cursor: pointer;
         color: #444;
         transition: all 0.3s ease;
-    }
+      }
 
-    button:hover{
+      button:hover {
         transform: translateY(-3px);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-    }
-    button:active{
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      }
+      button:active {
         transform: scale(0.95);
-    }
-    button:focus{
+      }
+      button:focus {
         outline: none;
-    }
-    button:focus-visible{
-        outline: none;
-    }
-    .func{
+      }
+      .func {
         background: #ffd1e2;
         color: #ff3d7a;
-    }
-    .func:hover{
+      }
+      .func:hover {
         background: #ffb9d3;
-    }
-    .op{
+      }
+      .op {
         background: #ff6a9d;
         color: white;
         font-size: 22px;
-    }
-    .op:hover{
+      }
+      .op:hover {
         background: #ff4a8a;
-    }
-    .equal{
+      }
+      .equal {
         background: #ff0a64;
         color: white;
         grid-column: span 2;
         font-size: 24px;
-    }
-    .equal:hover{
+      }
+      .equal:hover {
         background: #fc4787;
         box-shadow: 0 6px 15px rgba(168, 110, 219, 0.4);
-    }
-    .num:hover{
+      }
+      .num:hover {
         background: white;
-    }
-</style>
-<body>
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 400px) {
+        .calculator {
+          padding: 16px;
+          border-radius: 20px;
+        }
+        .display {
+          font-size: 28px;
+          min-height: 65px;
+        }
+        button {
+          height: 52px;
+          font-size: 16px;
+        }
+        .buttons {
+          gap: 10px;
+        }
+      }
+
+      @media (max-width: 300px) {
+        button {
+          height: 46px;
+          font-size: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
     <div class="calculator">
-        <div class="display">0</div>
-            <div class="buttons">
-                <button class="func">AC</button>
-                <button class="func">C</button>
-                <button class="func">%</button>
-                <button class="op">&divide;</button>
+      <div class="display" id="display">0</div>
+      <div class="buttons">
+        <button class="func" onclick="clearAll()">AC</button>
+        <button class="func" onclick="deleteLast()">C</button>
+        <button class="func" onclick="appendValue('%')">%</button>
+        <button class="op" onclick="appendValue('/')">&divide;</button>
 
-                <button class="num">7</button>
-                <button class="num">8</button>
-                <button class="num">9</button>
-                <button class="op">&times;</button>
+        <button class="num" onclick="appendValue('7')">7</button>
+        <button class="num" onclick="appendValue('8')">8</button>
+        <button class="num" onclick="appendValue('9')">9</button>
+        <button class="op" onclick="appendValue('*')">&times;</button>
 
-                <button class="num">4</button>
-                <button class="num">5</button>
-                <button class="num">6</button>
-                <button class="op">&minus;</button>
+        <button class="num" onclick="appendValue('4')">4</button>
+        <button class="num" onclick="appendValue('5')">5</button>
+        <button class="num" onclick="appendValue('6')">6</button>
+        <button class="op" onclick="appendValue('-')">&minus;</button>
 
-                <button class="num">1</button>
-                <button class="num">2</button>
-                <button class="num">3</button>
-                <button class="op">&plus;</button>
+        <button class="num" onclick="appendValue('1')">1</button>
+        <button class="num" onclick="appendValue('2')">2</button>
+        <button class="num" onclick="appendValue('3')">3</button>
+        <button class="op" onclick="appendValue('+')">&plus;</button>
 
-                <button class="num">0</button>
-                <button class="num">.</button>
-                <button class="equal">&equals;</button>
-            </div>
+        <button class="num" onclick="appendValue('0')">0</button>
+        <button class="num" onclick="appendValue('.')">.</button>
+        <button class="equal" onclick="calculate()">=</button>
+      </div>
     </div>
-</body>
+
+    <script>
+      let display = document.getElementById("display");
+      let current = "0";
+      let justCalculated = false;
+
+      function updateDisplay() {
+        display.innerText = current;
+      }
+
+      function appendValue(value) {
+        if (justCalculated && !isNaN(value)) {
+          current = value;
+          justCalculated = false;
+        } else {
+          if (current === "0" && value !== "." && !isNaN(value)) {
+            current = value;
+          } else {
+            let lastNum = current.split(/[\+\-\*\/\%]/).pop();
+            if (value === "." && lastNum.includes(".")) return;
+            current += value;
+          }
+          justCalculated = false;
+        }
+        updateDisplay();
+      }
+
+      function clearAll() {
+        current = "0";
+        updateDisplay();
+      }
+
+      function deleteLast() {
+        if (current.length > 1) {
+          current = current.slice(0, -1);
+        } else {
+          current = "0";
+        }
+        updateDisplay();
+      }
+
+      function calculate() {
+        try {
+          let expression = current.replace(/%/g, "/100");
+          let result = eval(expression);
+          current = result.toString();
+          justCalculated = true;
+          updateDisplay();
+        } catch {
+          current = "Error";
+          updateDisplay();
+          setTimeout(clearAll, 1000);
+        }
+      }
+    </script>
+  </body>
 </html>
